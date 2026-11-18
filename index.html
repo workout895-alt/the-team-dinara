@@ -41,7 +41,10 @@
   }
 
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 100px;
+  }
   body {
     margin: 0;
     background-color: var(--bg-page);
@@ -70,9 +73,8 @@
     position: sticky;
     top: 0;
     z-index: 50;
-    background: rgba(251, 247, 242, 0.92);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    background: #fbf7f2;
+    box-shadow: 0 4px 20px rgba(43, 17, 21, 0.05);
     border-bottom: 1px solid var(--border-soft);
     transition: all 0.3s ease;
   }
@@ -317,7 +319,7 @@
     aspect-ratio: 4 / 5.2;
     box-shadow: 0 35px 70px -25px rgba(66, 13, 21, 0.35);
     border: 8px solid #fff;
-    background: #e9ded4;
+    background: #2b080d;
   }
   .hero-main-photo-frame img {
     width: 100%;
@@ -327,6 +329,36 @@
   }
   .hero-main-photo-frame:hover img {
     transform: scale(1.03);
+  }
+  .hero-frame-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 60px 24px 24px;
+    background: linear-gradient(to top, rgba(35, 7, 12, 0.85) 0%, rgba(35, 7, 12, 0.35) 60%, transparent 100%);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    pointer-events: none;
+  }
+  .hero-frame-tag {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: #fbf7f2;
+    line-height: 1.2;
+  }
+  .hero-frame-sub {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--brand-gold);
+    font-weight: 600;
+    margin-top: 4px;
   }
 
   .float-badge {
@@ -557,14 +589,14 @@
     color: var(--ink-muted);
   }
 
-  /* Portfolio Gallery (Exactly 3 works) */
+  /* Portfolio Gallery (Real Video Reels) */
   .portfolio-section {
     padding: 96px 0;
   }
   .portfolio-grid-3 {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 26px;
+    gap: 28px;
   }
   .portfolio-card-item {
     background: var(--bg-surface);
@@ -572,34 +604,106 @@
     border-radius: var(--radius-md);
     overflow: hidden;
     box-shadow: var(--shadow-subtle);
+    display: flex;
+    flex-direction: column;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   .portfolio-card-item:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-card);
   }
-  .portfolio-photo-wrap {
+  .portfolio-video-wrap {
     position: relative;
-    aspect-ratio: 4 / 5.2;
+    aspect-ratio: 9 / 14;
     overflow: hidden;
-    background: var(--bg-surface-tint);
+    background: #140508;
+    cursor: pointer;
   }
-  .portfolio-photo-wrap img {
+  .portfolio-video-wrap video {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
+    display: block;
+    background: #140508;
   }
-  .portfolio-card-item:hover .portfolio-photo-wrap img {
-    transform: scale(1.04);
+  .video-play-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(93, 20, 30, 0.85);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
+    transition: all 0.25s ease;
+    z-index: 3;
+    pointer-events: none;
+  }
+  .video-play-overlay svg {
+    width: 24px;
+    height: 24px;
+    fill: #ffffff;
+    margin-left: 3px;
+  }
+  .portfolio-video-wrap:hover .video-play-overlay {
+    transform: translate(-50%, -50%) scale(1.1);
+    background: var(--brand-wine);
+    box-shadow: 0 14px 30px rgba(93, 20, 30, 0.6);
+  }
+  .portfolio-video-wrap.is-playing .video-play-overlay {
+    opacity: 0;
+    visibility: hidden;
+  }
+  .video-pill-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: rgba(35, 8, 13, 0.82);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 11.5px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    letter-spacing: 0.04em;
+    z-index: 2;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    pointer-events: none;
+  }
+  .video-pill-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #25d366;
+    animation: pulseDot 2s infinite;
+  }
+  @keyframes pulseDot {
+    0% { transform: scale(0.9); opacity: 0.8; }
+    50% { transform: scale(1.3); opacity: 1; }
+    100% { transform: scale(0.9); opacity: 0.8; }
   }
   .portfolio-card-body {
-    padding: 24px 22px;
+    padding: 24px 22px 22px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
   }
   .portfolio-tag {
     font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.16em;
     color: var(--brand-wine);
     font-weight: 700;
     display: block;
@@ -610,14 +714,43 @@
     font-size: 24px;
     font-weight: 600;
     color: var(--ink-primary);
-    margin: 0 0 8px;
+    margin: 0 0 12px;
     line-height: 1.2;
   }
-  .portfolio-card-desc {
-    font-size: 13.5px;
+  .video-desc-box {
+    background: var(--bg-page);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    margin-bottom: 18px;
+    flex-grow: 1;
+  }
+  .video-desc-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--brand-wine);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 5px;
+  }
+  .video-desc-label svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+    flex-shrink: 0;
+  }
+  .video-desc-text {
+    font-size: 13px;
     color: var(--ink-secondary);
-    line-height: 1.55;
+    line-height: 1.5;
     margin: 0;
+  }
+  .portfolio-card-btn {
+    width: 100%;
+    margin-top: auto;
   }
 
   /* Contacts & Map */
@@ -800,11 +933,14 @@
 
   @media (max-width: 768px) {
     .wrap { width: calc(100% - 32px); }
-    .nav { height: 72px; }
+    .nav { height: auto; min-height: 64px; padding: 12px 0; }
+    .logo-title { font-size: 20px; }
+    .logo-sub { font-size: 9.5px; }
+    .nav-right .btn-sm { padding: 8px 14px; font-size: 12px; }
     .nav-manager { display: none; }
     section { padding: 64px 0; }
-    .hero { padding: 30px 0 50px; }
-    h1 { font-size: 36px; }
+    .hero { padding: 40px 0 50px; }
+    h1 { font-size: 34px; }
     .features-grid { grid-template-columns: 1fr; }
     .float-badge.left { left: 0; bottom: 10px; padding: 12px 16px; }
     .float-badge.top-right { right: 0; top: 20px; padding: 12px 16px; }
@@ -912,6 +1048,10 @@
       <div class="hero-visual">
         <div class="hero-main-photo-frame">
           <img src="assets/hero.jpg" alt="Студия красоты The Team Dinara Danesh Алматы" fetchpriority="high">
+          <div class="hero-frame-overlay">
+            <span class="hero-frame-tag">The Team Dinara Danesh</span>
+            <span class="hero-frame-sub">Премиальная эстетика волос & уход</span>
+          </div>
         </div>
 
         <div class="float-badge left">
@@ -1230,39 +1370,105 @@
       </div>
 
       <div class="portfolio-grid-3">
-        <!-- 1: Сложное окрашивание -->
+        <!-- 1: Сложное окрашивание (Reel 1) -->
         <div class="portfolio-card-item">
-          <div class="portfolio-photo-wrap">
-            <img src="assets/work1.jpg" alt="Сложное окрашивание Airtouch Алматы">
+          <div class="portfolio-video-wrap">
+            <video playsinline controls preload="metadata" poster="assets/reel_coloring_poster.jpg">
+              <source src="assets/reel_coloring.mp4" type="video/mp4">
+              Ваш браузер не поддерживает видео.
+            </video>
+            <div class="video-pill-badge">
+              <span class="video-pill-dot"></span>
+              Видео 0:10 · Колористика
+            </div>
+            <div class="video-play-overlay">
+              <svg viewBox="0 0 24 24"><polygon points="8 5 19 12 8 19 8 5"/></svg>
+            </div>
           </div>
           <div class="portfolio-card-body">
-            <span class="portfolio-tag">Колористика</span>
-            <h3 class="portfolio-card-title">Airtouch & Рельефный блонд</h3>
-            <p class="portfolio-card-desc">Мягкий плавный переход от корней, благородный холодный оттенок без желтизны и сохранение плотности волос.</p>
+            <span class="portfolio-tag">Колористика & Уход</span>
+            <h3 class="portfolio-card-title">Сложное окрашивание & Брашинг</h3>
+            <div class="video-desc-box">
+              <div class="video-desc-label">
+                <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Что показано в видео:
+              </div>
+              <p class="video-desc-text">
+                Мастер пошагово прорабатывает каждую прядь, выполняет плавную растяжку цвета от корней и завершает образ профессиональной укладкой на брашинг с термозащитой.
+              </p>
+            </div>
+            <a href="https://wa.me/77027013341?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%90%D0%B9%D0%BA%D0%BE%D1%80%D0%BA%D0%B5%D0%BC!%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BF%D1%80%D0%BE%D0%BA%D0%BE%D0%BD%D1%81%D1%83%D0%BB%D1%8C%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D1%82%D1%8C%D1%81%D1%8F%20%D0%BF%D0%BE%20%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D0%BE%D0%BC%D1%83%20%D0%BE%D0%BA%D1%80%D0%B0%D1%88%D0%B8%D0%B2%D0%B0%D0%BD%D0%B8%D1%8E%20%D0%B8%D0%B7%20%D0%B2%D0%B8%D0%B4%D0%B5%D0%BE." target="_blank" rel="noopener" class="btn btn-wa btn-sm portfolio-card-btn">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M9.53 7.35C9.36 7.35 9.09 7.41 8.86 7.66C8.63 7.91 7.97 8.53 7.97 9.79C7.97 11.05 8.89 12.27 9.01 12.44C9.14 12.61 10.8 15.16 13.33 16.26C13.94 16.52 14.41 16.68 14.78 16.8C15.39 16.99 15.94 16.96 16.38 16.9C16.87 16.83 17.88 16.29 18.09 15.7C18.3 15.11 18.3 14.61 18.23 14.5C18.17 14.4 18 14.34 17.72 14.2C17.44 14.06 16.08 13.39 15.83 13.3C15.58 13.21 15.39 13.16 15.21 13.44C15.02 13.72 14.49 14.34 14.33 14.53C14.17 14.72 14.01 14.74 13.73 14.6C13.45 14.46 12.56 14.17 11.5 13.23C10.68 12.5 10.12 11.6 9.96 11.32C9.8 11.04 9.94 10.89 10.08 10.75C10.21 10.62 10.37 10.41 10.51 10.25C10.65 10.09 10.7 9.97 10.79 9.79C10.88 9.61 10.84 9.46 10.77 9.32C10.7 9.18 10.12 7.74 9.88 7.16C9.65 6.6 9.41 6.68 9.23 6.67L8.86 6.67C8.67 6.67 8.39 6.74 8.16 6.99"/></svg>
+              Записаться на окрашивание
+            </a>
           </div>
         </div>
 
-        <!-- 2: Завивка & Укладка -->
+        <!-- 2: Точная модельная стрижка (Reel 2) -->
         <div class="portfolio-card-item">
-          <div class="portfolio-photo-wrap">
-            <img src="assets/work2.jpg" alt="Бережная завивка и укладка волос Алматы">
+          <div class="portfolio-video-wrap">
+            <video playsinline controls preload="metadata" poster="assets/reel_haircut_poster.jpg">
+              <source src="assets/reel_haircut.mp4" type="video/mp4">
+              Ваш браузер не поддерживает видео.
+            </video>
+            <div class="video-pill-badge">
+              <span class="video-pill-dot"></span>
+              Видео 0:07 · Стрижка
+            </div>
+            <div class="video-play-overlay">
+              <svg viewBox="0 0 24 24"><polygon points="8 5 19 12 8 19 8 5"/></svg>
+            </div>
           </div>
           <div class="portfolio-card-body">
-            <span class="portfolio-tag">Текстура & Форма</span>
-            <h3 class="portfolio-card-title">Биозавивка & Объем</h3>
-            <p class="portfolio-card-desc">Естественный живой завиток, прикорневой объем и текстурные волны, которые легко укладывать дома за 5 минут.</p>
+            <span class="portfolio-tag">Форма & Геометрия</span>
+            <h3 class="portfolio-card-title">Процесс точной стрижки</h3>
+            <div class="video-desc-box">
+              <div class="video-desc-label">
+                <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Что показано в видео:
+              </div>
+              <p class="video-desc-text">
+                Детальная филировка и работа ножницами — чистое плавное сведение височных зон, оформление линии затылка и создание аккуратной формы, которая легко держит объем.
+              </p>
+            </div>
+            <a href="https://wa.me/77027013341?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%90%D0%B9%D0%BA%D0%BE%D1%80%D0%BA%D0%B5%D0%BC!%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B0%D1%82%D1%8C%D1%81%D1%8F%20%D0%BD%D0%B0%20%D1%81%D1%82%D1%80%D0%B8%D0%B6%D0%BA%D1%83%20%D0%B2%20The%20Team%20Dinara." target="_blank" rel="noopener" class="btn btn-wa btn-sm portfolio-card-btn">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M9.53 7.35C9.36 7.35 9.09 7.41 8.86 7.66C8.63 7.91 7.97 8.53 7.97 9.79C7.97 11.05 8.89 12.27 9.01 12.44C9.14 12.61 10.8 15.16 13.33 16.26C13.94 16.52 14.41 16.68 14.78 16.8C15.39 16.99 15.94 16.96 16.38 16.9C16.87 16.83 17.88 16.29 18.09 15.7C18.3 15.11 18.3 14.61 18.23 14.5C18.17 14.4 18 14.34 17.72 14.2C17.44 14.06 16.08 13.39 15.83 13.3C15.58 13.21 15.39 13.16 15.21 13.44C15.02 13.72 14.49 14.34 14.33 14.53C14.17 14.72 14.01 14.74 13.73 14.6C13.45 14.46 12.56 14.17 11.5 13.23C10.68 12.5 10.12 11.6 9.96 11.32C9.8 11.04 9.94 10.89 10.08 10.75C10.21 10.62 10.37 10.41 10.51 10.25C10.65 10.09 10.7 9.97 10.79 9.79C10.88 9.61 10.84 9.46 10.77 9.32C10.7 9.18 10.12 7.74 9.88 7.16C9.65 6.6 9.41 6.68 9.23 6.67L8.86 6.67C8.67 6.67 8.39 6.74 8.16 6.99"/></svg>
+              Записаться на стрижку
+            </a>
           </div>
         </div>
 
-        <!-- 3: Ресницы & Экспресс-образ -->
+        <!-- 3: Финал преображения (Reel 3) -->
         <div class="portfolio-card-item">
-          <div class="portfolio-photo-wrap">
-            <img src="assets/work3.jpg" alt="Наращивание ресниц и образ Алматы">
+          <div class="portfolio-video-wrap">
+            <video playsinline controls preload="metadata" poster="assets/reel_atmosphere_poster.jpg">
+              <source src="assets/reel_atmosphere.mp4" type="video/mp4">
+              Ваш браузер не поддерживает видео.
+            </video>
+            <div class="video-pill-badge">
+              <span class="video-pill-dot"></span>
+              Видео 0:31 · Атмосфера студии
+            </div>
+            <div class="video-play-overlay">
+              <svg viewBox="0 0 24 24"><polygon points="8 5 19 12 8 19 8 5"/></svg>
+            </div>
           </div>
           <div class="portfolio-card-body">
-            <span class="portfolio-tag">Ресницы & Стиль</span>
-            <h3 class="portfolio-card-title">Наращивание ресниц 2D/3D</h3>
-            <p class="portfolio-card-desc">Бархатный эффект, идеальное моделирование направления ресничек под разрез глаз и длительная носка до 5 недель.</p>
+            <span class="portfolio-tag">Атмосфера & Результат</span>
+            <h3 class="portfolio-card-title">Финал преображения и радость гостьи</h3>
+            <div class="video-desc-box">
+              <div class="video-desc-label">
+                <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Что показано в видео:
+              </div>
+              <p class="video-desc-text">
+                Искренний восторг клиентки от обновленного образа и сияющих волос. Тёплая поддержка стилистов, которые вкладывают душу в каждый образ в салоне на ул. Сатпаева, 109.
+              </p>
+            </div>
+            <a href="https://wa.me/77027013341?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%90%D0%B9%D0%BA%D0%BE%D1%80%D0%BA%D0%B5%D0%BC!%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BF%D0%BE%D0%B4%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D1%8C%20%D0%B2%D1%80%D0%B5%D0%BC%D1%8F%20%D0%B4%D0%BB%D1%8F%20%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B8%20%D0%B2%20The%20Team%20Dinara." target="_blank" rel="noopener" class="btn btn-wa btn-sm portfolio-card-btn">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M9.53 7.35C9.36 7.35 9.09 7.41 8.86 7.66C8.63 7.91 7.97 8.53 7.97 9.79C7.97 11.05 8.89 12.27 9.01 12.44C9.14 12.61 10.8 15.16 13.33 16.26C13.94 16.52 14.41 16.68 14.78 16.8C15.39 16.99 15.94 16.96 16.38 16.9C16.87 16.83 17.88 16.29 18.09 15.7C18.3 15.11 18.3 14.61 18.23 14.5C18.17 14.4 18 14.34 17.72 14.2C17.44 14.06 16.08 13.39 15.83 13.3C15.58 13.21 15.39 13.16 15.21 13.44C15.02 13.72 14.49 14.34 14.33 14.53C14.17 14.72 14.01 14.74 13.73 14.6C13.45 14.46 12.56 14.17 11.5 13.23C10.68 12.5 10.12 11.6 9.96 11.32C9.8 11.04 9.94 10.89 10.08 10.75C10.21 10.62 10.37 10.41 10.51 10.25C10.65 10.09 10.7 9.97 10.79 9.79C10.88 9.61 10.84 9.46 10.77 9.32C10.7 9.18 10.12 7.74 9.88 7.16C9.65 6.6 9.41 6.68 9.23 6.67L8.86 6.67C8.67 6.67 8.39 6.74 8.16 6.99"/></svg>
+              Подобрать время для визита
+            </a>
           </div>
         </div>
       </div>
@@ -1383,5 +1589,21 @@
   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M9.53 7.35C9.36 7.35 9.09 7.41 8.86 7.66C8.63 7.91 7.97 8.53 7.97 9.79C7.97 11.05 8.89 12.27 9.01 12.44C9.14 12.61 10.8 15.16 13.33 16.26C13.94 16.52 14.41 16.68 14.78 16.8C15.39 16.99 15.94 16.96 16.38 16.9C16.87 16.83 17.88 16.29 18.09 15.7C18.3 15.11 18.3 14.61 18.23 14.5C18.17 14.4 18 14.34 17.72 14.2C17.44 14.06 16.08 13.39 15.83 13.3C15.58 13.21 15.39 13.16 15.21 13.44C15.02 13.72 14.49 14.34 14.33 14.53C14.17 14.72 14.01 14.74 13.73 14.6C13.45 14.46 12.56 14.17 11.5 13.23C10.68 12.5 10.12 11.6 9.96 11.32C9.8 11.04 9.94 10.89 10.08 10.75C10.21 10.62 10.37 10.41 10.51 10.25C10.65 10.09 10.7 9.97 10.79 9.79C10.88 9.61 10.84 9.46 10.77 9.32C10.7 9.18 10.12 7.74 9.88 7.16C9.65 6.6 9.41 6.68 9.23 6.67L8.86 6.67C8.67 6.67 8.39 6.74 8.16 6.99"/></svg>
 </a>
 
+<script>
+  document.querySelectorAll('.portfolio-video-wrap').forEach(wrap => {
+    const video = wrap.querySelector('video');
+    if (!video) return;
+    wrap.addEventListener('click', (e) => {
+      if (e.target.tagName && e.target.tagName.toLowerCase() === 'video') return;
+      if (video.paused) {
+        video.play();
+      } else {
+        video.pause();
+      }
+    });
+    video.addEventListener('play', () => wrap.classList.add('is-playing'));
+    video.addEventListener('pause', () => wrap.classList.remove('is-playing'));
+  });
+</script>
 </body>
 </html>
